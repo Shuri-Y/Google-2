@@ -1,0 +1,84 @@
+# 保存できるデータ(URL,Webページの組み合わせ)が X個のハッシュテーブルをつくる
+# ハッシュテーブルをリストで表現？
+# [x1, x2, x3, x4, x5]
+# ここでは例と同じく、X=5 で表現する
+
+# cashtable=[("x1",1), ("x2",2), ("x3",3), ("x4",4), ("x5",5)]
+
+#"x1"などはURLと対応した値とする
+#対応させる関数を
+# urlchanger　としておく(後で定義する)
+
+
+#ハッシュ値は大きくなってしまうが、文字コード*入力された文字の場所*256 を足し合わせることで文字列をアナグラムであったとしても固有の値にできる
+#"abc" = 97*256^2 + 98*256^1 +99
+
+import random, sys, time
+
+def calculate_hash(key):
+    assert type(key) == str
+    hash = 0
+    for i in key:
+        hash = hash * 256 +ord(i)
+    return hash
+
+
+# 課題１で作成されたもの
+
+class Item:
+    def __init__(self, key, value, next):
+        assert type(key) == str
+        self.key = key
+        self.value = value
+        self.next = next
+
+class HashTable:
+
+    # Initialize the hash table.
+    def __init__(self):
+        self.bucket_size = 97
+        self.buckets = [None] * self.bucket_size
+        self.item_count = 0
+
+    def put(self, key, value):
+        assert type(key) == str
+        bucket_index = calculate_hash(key) % self.bucket_size
+        item = self.buckets[bucket_index]
+        while item:
+            if item.key == key:
+                item.value = value
+                return False
+            item = item.next
+        new_item = Item(key, value, self.buckets[bucket_index])
+        self.buckets[bucket_index] = new_item
+        self.item_count += 1
+        return True
+
+    
+    def get(self, key):
+        assert type(key) == str
+        bucket_index = calculate_hash(key) % self.bucket_size
+        item = self.buckets[bucket_index]
+        while item:
+            if item.key == key:
+                return (item.value, True)
+            item = item.next
+        return (None, False)
+    
+
+
+
+#ハッシュテーブル内の要素に順番をつけ、その前後の情報をもたせたい
+
+class addedItem:
+    def __init__(self, key, value, pre, next):
+        assert type(key) == str
+        self.key = key
+        self.value = value
+        self.pre = pre
+        self.next = next
+
+item = input(":")
+
+forsearch = addedItem(item.key, item.value, item.pre, item.next)
+

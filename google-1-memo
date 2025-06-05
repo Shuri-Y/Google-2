@@ -1,0 +1,16 @@
+> def calculate_hash(key):
+> <br>
+>    &emsp; assert type(key) == str
+> <br>
+>    &emsp; hash = 0
+> <br>
+>    &emsp; for i in key:
+> <br> 
+>        &emsp; &emsp; hash += ord(i)
+> <br>
+>    &emsp; return hash
+> <br>
+> Note: This is not a good hash function. Do you see why?
+
+
+line16以降のこのコードではhash値を単純な足し算で表し、それを割った余りでハッシュテーブルをつくっているためhash値が衝突しやすいと考える
